@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'tips',
     'rest_framework',
     'corsheaders',
-    'django_filters',
+    
 ]
 
 MIDDLEWARE = [
