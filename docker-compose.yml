@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+
+  web:
+    build:
+      context: ./project
+      dockerfile: Dockerfile
+    command: gunicorn dashboard.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - '8000:8000'
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DEBUG=1
+      - SECRET_KEY=foo
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 164.92.226.162 [::1]
+    depends_on:
+      - redis
+      - db
+
+
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  redis:
+    image: redis:6-alpine
+
+  celery_worker:
+    build:
+      context: ./project
+    command: celery -A dashboard worker -l info
+    volumes:
+      - .:/project
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DEBUG=1
+      - SECRET_KEY=foo
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 164.92.226.162 [::1]
+    depends_on:
+      - redis
+      - web
+      - db
+
+
+  celery_beat:
+    build:
+       context: ./project
+    command: celery -A dashboard beat -l info
+    volumes:
+      - ./peoject/:/app/
+    env_file:
+      - ./.env
+    depends_on:
+      - redis
+
+volumes:
+  postgres_data:
