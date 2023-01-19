@@ -40,10 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dash_back',
+    'tips',
     'rest_framework',
     'corsheaders',
-    'django_filters',
+    
 ]
 
 MIDDLEWARE = [
@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'dashboard.urls'
+ROOT_URLCONF = 'forecast.urls'
 
 TEMPLATES = [
     {
@@ -81,7 +81,7 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 400,
 }
 
-WSGI_APPLICATION = 'dashboard.wsgi.application'
+WSGI_APPLICATION = 'forecast.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
