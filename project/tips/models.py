@@ -9,3 +9,13 @@ class OverTwoAndHalf(models.Model):
     away_over_percentage = models.IntegerField()
     championship = models.CharField(max_length=400)
     bet_url = models.CharField(max_length=600, null=True)
+    
+
+class Btts(models.Model):
+    homeTeam = models.CharField(max_length=400)
+    awayTeam = models.CharField(max_length=400)    
+    startTime = models.DateTimeField(default=datetime.now())
+    btts_a = models.IntegerField()
+    btts_b = models.IntegerField()
+    championship = models.CharField(max_length=400)
+    bet_url = models.CharField(max_length=600, null=True)

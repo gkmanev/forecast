@@ -111,8 +111,8 @@ CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
 CELERY_BEAT_SCHEDULE = {
     
       'task_rq_api': {
-        'task': 'tips.tasks.sample_task',
-        'schedule': crontab(hour=14, minute=5),
+        'task': 'forecast.tasks.sample_task',
+        'schedule': crontab(hour=12, minute=20),
     }
    
 }

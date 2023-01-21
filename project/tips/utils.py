@@ -6,7 +6,7 @@ from datetime import date
 import pytz
 from pytz import timezone
 from django.conf import settings
-from tips.models import OverTwoAndHalf
+from tips.models import OverTwoAndHalf,Btts
 
 #Fixtures
 
@@ -87,27 +87,31 @@ def get_data():
                         perfA = gem["teamA"].get("perf",None)
                         perfB = gem["teamB"].get("perf",None)
                         if perfA and perfB:
+                            
+                            if bet_url:
+                                url_365 = make_bet_url(bet_url)
+                            else:
+                                url_365 = ""
+                            start_time = parse_date(game_date)
+            
                             bttsA = gem["teamA"]["perf"].get("btts", None)
                             bttsB = gem["teamB"]["perf"].get("btts", None)
                             if bttsA and bttsB:
                                 bttsA = float(gem["teamA"]["perf"]["btts"])
-                                bttsB = float(gem["teamB"]["perf"]["btts"])             
+                                bttsB = float(gem["teamB"]["perf"]["btts"]) 
+                                Btts.objects.get_or_create(homeTeam = teamA, awayTeam = teamB, startTime = start_time, btts_a = bttsA, btts_b = bttsB, championship = championship, bet_url = url_365 )
+                                                                   
                 
                             avgA = gem['teamA']['perf']['o_2_5_game']
                             avgB = gem['teamB']['perf']['o_2_5_game']    
                             if avgA and avgB:
                                 avgA = float(avgA)
-                                avgB = float(avgB)                       
-                              
-                                if bet_url:
-                                    url_365 = make_bet_url(bet_url)
-                                else:
-                                    url_365 = ""
-                                start_time = parse_date(game_date)
+                                avgB = float(avgB)                    
+                         
                                 OverTwoAndHalf.objects.get_or_create(homeTeam = teamA, awayTeam = teamB, startTime = start_time, home_over_percentage = avgA, away_over_percentage = avgB, championship = championship, bet_url = url_365 )
                                 if bet_url:
                                     print(teamA+"||"+teamB+"||"+str(start_time)+"||"+str(avgA)+"||"+str(avgB)+"||"+championship+"|||"+bet_url)
-                                    
+                             
                           
                                 
                             

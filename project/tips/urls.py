@@ -16,5 +16,6 @@ from rest_framework.routers import DefaultRouter
 from tips import views
 
 router.register(r'over', views.OverViewset, basename='over')
+router.register(r'btts', views.BttsViewset, basename='btts')
 
 urlpatterns = router.urls

@@ -4,15 +4,11 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
-from tips.models import OverTwoAndHalf
-from tips.serializers import OverSerializer
+from tips.models import OverTwoAndHalf, Btts
+from tips.serializers import OverSerializer, BttsSerializer
 
 class OverViewset(viewsets.ModelViewSet):
     def get_queryset(self):
-        # today = datetime.today()
-        # datem = str(datetime(today.year, today.month, 1))
-        # datem = datem.split(" ")[0]
-        # range = self.request.query_params.get('date_range',None)
         hOver = self.request.query_params.get("home")
         aOver = self.request.query_params.get("away")
         if hOver is not None and aOver is not None:
@@ -26,4 +22,15 @@ class OverViewset(viewsets.ModelViewSet):
         
                
 
- 
+class BttsViewset(viewsets.ModelViewSet):
+    def get_queryset(self):
+        btts_home = self.request.query_params.get("btts_h")
+        btts_away = self.request.query_params.get("btts_a")
+        if btts_home is not None and btts_away is not None:
+            now = datetime.today()
+            queryset = Btts.objects.filter(btts_a__gte = btts_home, btts_b__gte = btts_away,startTime__gte=now)
+            return queryset
+        else:
+            queryset = Btts.objects.all()
+            return queryset
+    serializer_class = BttsSerializer
