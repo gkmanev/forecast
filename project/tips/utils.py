@@ -60,7 +60,8 @@ def get_data():
         
     today = str(date.today())
     today = today.split("-")
-    today_new = today[0]+today[1]+today[2]
+    test_time = int(today[2]) + 1
+    today_new = today[0]+today[1]+str(test_time)
     
     pages = get_pagination(today_new)
     
