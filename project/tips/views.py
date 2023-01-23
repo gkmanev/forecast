@@ -11,6 +11,7 @@ class OverViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         hOver = self.request.query_params.get("home")
         aOver = self.request.query_params.get("away")
+        print(hOver)
         if hOver is not None and aOver is not None:
             now = datetime.today()
             queryset = OverTwoAndHalf.objects.filter(home_over_percentage__gte = hOver, away_over_percentage__gte = aOver,startTime__gte=now)
