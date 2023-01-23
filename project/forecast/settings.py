@@ -112,7 +112,7 @@ CELERY_BEAT_SCHEDULE = {
     
       'task_rq_api': {
         'task': 'tips.tasks.sample_task',
-        'schedule': crontab(hour=0, minute=58),
+        'schedule': crontab(hour=1, minute=11),
     }
    
 }
